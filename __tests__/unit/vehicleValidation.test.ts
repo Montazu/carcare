@@ -1,4 +1,4 @@
-import { VehicleValidation } from '@/utils/vehicleValidation'
+import { VehicleValidation } from '@/utils'
 
 describe('VehicleValidation', () => {
 	it('should validate license plate correctly', () => {

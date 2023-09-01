@@ -44,16 +44,13 @@ export class VehicleValidation {
 		}
 
 		const checkDigit = vin.charAt(8).toUpperCase()
-		const result =
-			(sum % 11 === 10 && checkDigit === 'X') ||
-			sum % 11 === parseInt(checkDigit, 10)
+		const result = (sum % 11 === 10 && checkDigit === 'X') || sum % 11 === parseInt(checkDigit, 10)
 
 		return result
 	}
 
 	static date(date: string): boolean {
-		const regex =
-			/^(\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?(?:[Zz]|[-+]\d{2}:\d{2})?)?)?$/
+		const regex = /^(\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?(?:[Zz]|[-+]\d{2}:\d{2})?)?)?$/
 		if (!regex.test(date)) return false
 
 		const inputDate = new Date(date)
