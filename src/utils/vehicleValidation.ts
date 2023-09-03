@@ -1,6 +1,6 @@
 export class VehicleValidation {
 	static licensePlate(licensePlate: string): boolean {
-		const regex = /^[A-Z0-9 ]{5,10}$/
+		const regex = /^(?=.*[A-Z])(?=.*\d)[A-Z0-9 ]{4,8}$/
 		return regex.test(licensePlate)
 	}
 

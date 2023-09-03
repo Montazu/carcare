@@ -3,8 +3,8 @@ export class DataProcessor {
 		return input.replace(/\s+/g, '').toUpperCase()
 	}
 
-	static parseIsoDate(input: string): Date {
+	static parseIsoDate(input: string): string {
 		const parsedDate = new Date(input)
-		return parsedDate
+		return parsedDate.toString()
 	}
 }

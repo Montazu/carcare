@@ -28,9 +28,13 @@ export const POST = async (request: Request) => {
 		return NextResponse.json({ error }, { status: 400 })
 	}
 
-	const isLicensePlateValid = VehicleValidation.licensePlate(license_plate)
-	const isVinValid = VehicleValidation.vin(vin)
-	const isDateValid = VehicleValidation.date(first_registration_date)
+	const processedLicensePlate = DataProcessor.removeSpacesAndConvertToUpperCase(license_plate)
+	const processedVin = DataProcessor.removeSpacesAndConvertToUpperCase(vin)
+	const processedFirstRegistrationDate = DataProcessor.parseIsoDate(first_registration_date)
+
+	const isLicensePlateValid = VehicleValidation.licensePlate(processedLicensePlate)
+	const isVinValid = VehicleValidation.vin(processedVin)
+	const isDateValid = VehicleValidation.date(processedFirstRegistrationDate)
 
 	if (!isLicensePlateValid || !isVinValid || !isDateValid) {
 		const details = []
@@ -40,10 +44,6 @@ export const POST = async (request: Request) => {
 		const error = { message: 'Żądanie zawiera nieprawidłowe dane', details }
 		return NextResponse.json({ error }, { status: 400 })
 	}
-
-	const processedLicensePlate = DataProcessor.removeSpacesAndConvertToUpperCase(license_plate)
-	const processedVin = DataProcessor.removeSpacesAndConvertToUpperCase(vin)
-	const processedFirstRegistrationDate = DataProcessor.parseIsoDate(first_registration_date)
 
 	return NextResponse.json({ id: 1, processedLicensePlate, processedVin, processedFirstRegistrationDate })
 }
