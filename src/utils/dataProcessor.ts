@@ -1,10 +1,12 @@
 export class DataProcessor {
-	static removeSpacesAndConvertToUpperCase(input: string): string {
+	static removeSpacesAndConvertToUpperCase(input: string) {
 		return input.replace(/\s+/g, '').toUpperCase()
 	}
 
-	static formatDateISOToDDMMYYYY(input: string): string {
+	static formatDateISOToDDMMYYYY(input: string) {
 		const date = new Date(input)
+		if (isNaN(date.getTime())) return 'Invalid Date'
+
 		const day = String(date.getDate()).padStart(2, '0')
 		const month = String(date.getMonth() + 1).padStart(2, '0')
 		const year = String(date.getFullYear())

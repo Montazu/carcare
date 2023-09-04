@@ -1,14 +1,43 @@
 import { DataProcessor } from '@/utils'
 
 describe('DataProcessor', () => {
-	it('should process input to remove spaces and convert to upper case', () => {
-		expect(DataProcessor.removeSpacesAndConvertToUpperCase('')).toBe('')
-		expect(DataProcessor.removeSpacesAndConvertToUpperCase('nE6362j')).toBe('NE6362J')
-		expect(DataProcessor.removeSpacesAndConvertToUpperCase(' nE6362j ')).toBe('NE6362J')
-		expect(DataProcessor.removeSpacesAndConvertToUpperCase(' n E 6 3 6 2 j ')).toBe('NE6362J')
+	describe('removeSpacesAndConvertToUpperCase', () => {
+		it('should remove spaces and convert to upper case', () => {
+			const input = 'Hello, World!'
+			const result = DataProcessor.removeSpacesAndConvertToUpperCase(input)
+			expect(result).toBe('HELLO,WORLD!')
+		})
+
+		it('should handle empty string', () => {
+			const input = ''
+			const result = DataProcessor.removeSpacesAndConvertToUpperCase(input)
+			expect(result).toBe('')
+		})
+
+		it('should handle string without spaces', () => {
+			const input = 'NoSpacesHere'
+			const result = DataProcessor.removeSpacesAndConvertToUpperCase(input)
+			expect(result).toBe('NOSPACESHERE')
+		})
 	})
 
-	it('should process input format date ISO to DD/MM/YYYY', () => {
-		expect(DataProcessor.formatDateISOToDDMMYYYY('2023-09-04')).toBe('04.09.2023')
+	describe('formatDateISOToDDMMYYYY', () => {
+		it('should format ISO date to DD.MM.YYYY', () => {
+			const input = '2023-09-04'
+			const result = DataProcessor.formatDateISOToDDMMYYYY(input)
+			expect(result).toBe('04.09.2023')
+		})
+
+		it('should handle invalid date', () => {
+			const input = 'invalid-date'
+			const result = DataProcessor.formatDateISOToDDMMYYYY(input)
+			expect(result).toBe('Invalid Date')
+		})
+
+		it('should handle empty string', () => {
+			const input = ''
+			const result = DataProcessor.formatDateISOToDDMMYYYY(input)
+			expect(result).toBe('Invalid Date')
+		})
 	})
 })

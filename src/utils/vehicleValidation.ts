@@ -1,15 +1,15 @@
 export class VehicleValidation {
-	static licensePlate(licensePlate: string): boolean {
+	static licensePlate(licensePlate: string) {
 		const regex = /^(?=.*[A-Z])(?=.*\d)[A-Z0-9 ]{4,8}$/
 		return regex.test(licensePlate)
 	}
 
-	static vin(vin: string): boolean {
+	static vin(vin: string) {
 		const regex = /^[A-HJ-NPR-Z0-9]{17}$/
 		return regex.test(vin)
 	}
 
-	static date(date: string): boolean {
+	static date(date: string) {
 		const regex = /^(\d{2})\.(\d{2})\.(\d{4})$/
 		if (!regex.test(date)) return false
 
