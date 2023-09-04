@@ -3,8 +3,12 @@ export class DataProcessor {
 		return input.replace(/\s+/g, '').toUpperCase()
 	}
 
-	static parseIsoDate(input: string): string {
-		const parsedDate = new Date(input)
-		return parsedDate.toString()
+	static formatDateISOToDDMMYYYY(input: string): string {
+		const date = new Date(input)
+		const day = String(date.getDate()).padStart(2, '0')
+		const month = String(date.getMonth() + 1).padStart(2, '0')
+		const year = String(date.getFullYear())
+
+		return `${day}.${month}.${year}`
 	}
 }

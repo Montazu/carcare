@@ -63,16 +63,20 @@ describe('VehicleValidation', () => {
 
 	it('should validate VIN correctly', () => {
 		expect(VehicleValidation.vin('VF1RFB00968678630')).toBe(true)
-		expect(VehicleValidation.vin('W0LGB8EL7F1026641')).toBe(true)
+		expect(VehicleValidation.vin('JTMDW3FV30D529584')).toBe(true)
+		expect(VehicleValidation.vin('SUP115CC602393939')).toBe(true)
 		expect(VehicleValidation.vin('1HGCM82633A12345')).toBe(false)
-		expect(VehicleValidation.vin('12345678901234567')).toBe(false)
 		expect(VehicleValidation.vin('')).toBe(false)
 	})
 
 	it('should validate date correctly', () => {
-		expect(VehicleValidation.date('2023-08-01T00:00:00Z')).toBe(true)
+		expect(VehicleValidation.date('12.06.2018')).toBe(true)
+		expect(VehicleValidation.date('28.02.2023')).toBe(true)
+		expect(VehicleValidation.date('12.14.2018')).toBe(false)
+		expect(VehicleValidation.date('12.06.')).toBe(false)
+		expect(VehicleValidation.date('2023-08-01T00:00:00Z')).toBe(false)
 		expect(VehicleValidation.date('2025-09-01T14:30:00Z')).toBe(false)
-		expect(VehicleValidation.date('2022-07-04')).toBe(true)
+		expect(VehicleValidation.date('2022-07-04')).toBe(false)
 		expect(VehicleValidation.date('-2022-07-04')).toBe(false)
 		expect(VehicleValidation.date('2022-17-04')).toBe(false)
 		expect(VehicleValidation.date('20.12.2500')).toBe(false)

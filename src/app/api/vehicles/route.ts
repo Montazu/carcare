@@ -17,31 +17,30 @@ export const POST = async (request: Request) => {
 	const emptyBody = { license_plate: null, vin: null, first_registration_date: null }
 	const body = await request.json().catch(() => emptyBody)
 	const { license_plate, vin, first_registration_date } = body
+	const details = []
 
 	if (!license_plate || !vin || !first_registration_date) {
-		const details = []
-		const fieldMessage = 'Pole wymagane'
+		const fieldMessage = 'Required field'
 		!license_plate && details.push({ field: 'license_plate', message: fieldMessage })
 		!vin && details.push({ field: 'vin', message: fieldMessage })
 		!first_registration_date && details.push({ field: 'first_registration_date', message: fieldMessage })
-		const error = { message: 'Żądanie zawiera niekompletne dane', details }
+		const error = { message: 'The request contains incomplete data', details }
 		return NextResponse.json({ error }, { status: 400 })
 	}
 
 	const processedLicensePlate = DataProcessor.removeSpacesAndConvertToUpperCase(license_plate)
 	const processedVin = DataProcessor.removeSpacesAndConvertToUpperCase(vin)
-	const processedFirstRegistrationDate = DataProcessor.parseIsoDate(first_registration_date)
+	const processedFirstRegistrationDate = DataProcessor.formatDateISOToDDMMYYYY(first_registration_date)
 
 	const isLicensePlateValid = VehicleValidation.licensePlate(processedLicensePlate)
 	const isVinValid = VehicleValidation.vin(processedVin)
 	const isDateValid = VehicleValidation.date(processedFirstRegistrationDate)
 
 	if (!isLicensePlateValid || !isVinValid || !isDateValid) {
-		const details = []
-		!isLicensePlateValid && details.push({ field: 'license_plate', message: 'Nieprawidłowa tablica rejestracyjna' })
-		!isVinValid && details.push({ field: 'vin', message: 'Nieprawidłowy numer VIN' })
-		!isDateValid && details.push({ field: 'first_registration_date', message: 'Nieprawidłowa data rejestracji' })
-		const error = { message: 'Żądanie zawiera nieprawidłowe dane', details }
+		!isLicensePlateValid && details.push({ field: 'license_plate', message: 'Invalid license plate' })
+		!isVinValid && details.push({ field: 'vin', message: 'Invalid VIN number' })
+		!isDateValid && details.push({ field: 'first_registration_date', message: 'Invalid date first registration' })
+		const error = { message: 'The request contains invalid data', details }
 		return NextResponse.json({ error }, { status: 400 })
 	}
 
