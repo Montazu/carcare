@@ -58,7 +58,7 @@ export const POST = async (request: Request) => {
 	if (result) {
 		return NextResponse.json(result, { status: 201 })
 	} else {
-		const error = { message: 'Vehicle added successfully' }
-		return NextResponse.json({ error }, { status: 400 })
+		const error = { message: 'Vehicle not found' }
+		return NextResponse.json({ error }, { status: 404 })
 	}
 }

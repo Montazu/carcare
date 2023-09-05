@@ -1,9 +1,9 @@
 export class DataProcessor {
-	static removeSpacesAndConvertToUpperCase(input: string) {
+	static removeSpacesAndConvertToUpperCase(input: string): string {
 		return input.replace(/\s+/g, '').toUpperCase()
 	}
 
-	static formatDateISOToDDMMYYYY(input: string) {
+	static formatDateISOToDDMMYYYY(input: string): string {
 		const date = new Date(input)
 		if (isNaN(date.getTime())) return 'Invalid Date'
 
