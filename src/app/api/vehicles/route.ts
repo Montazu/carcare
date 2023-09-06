@@ -2,16 +2,26 @@ import { NextResponse } from 'next/server'
 import { DataProcessor, TypeChecker, VehicleValidation } from '@/utils'
 import { VehicleManager } from './vehicleManager'
 
-const manager = new VehicleManager()
+interface Body {
+	licensePlate: unknown
+	vin: unknown
+	firstRegistrationDate: unknown
+}
 
 export const GET = async () => {
-	const vehicles = await manager.getAllVehicles()
-	return NextResponse.json({ vehicles })
+	// const response = await VehicleManager.getAllVehicles()
+	// const { data, status } = response
+	// return NextResponse.json(data, { status })
+	const response = {
+		data: { error: 'dupa' },
+		status: 409,
+	}
+	return NextResponse.json(response)
 }
 
 export const POST = async (request: Request) => {
-	const emptyBody = { licensePlate: null, vin: null, firstRegistrationDate: null }
-	const body = await request.json().catch(() => emptyBody)
+	const emptyBody = { licensePlate: '', vin: '', firstRegistrationDate: '' }
+	const body: Body = await request.json().catch(() => emptyBody)
 	const { licensePlate, vin, firstRegistrationDate } = body
 	const details = []
 
@@ -53,12 +63,6 @@ export const POST = async (request: Request) => {
 		return NextResponse.json({ error }, { status: 400 })
 	}
 
-	const result = await manager.addVehicle(processedLicensePlate, processedVin, processedFirstRegistrationDate)
-
-	if (result) {
-		return NextResponse.json(result, { status: 201 })
-	} else {
-		const error = { message: 'Vehicle not found' }
-		return NextResponse.json({ error }, { status: 404 })
-	}
+	const result = await VehicleManager.addVehicle(processedLicensePlate, processedVin, processedFirstRegistrationDate)
+	return NextResponse.json('error' in result ? { error: result.error } : result.data, { status: result.status })
 }
