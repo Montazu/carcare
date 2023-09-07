@@ -42,7 +42,7 @@ export class VehicleManager {
 		const vehicle = fakeDB.find((vehicle) => vehicle.vin === vin)
 		if (vehicle) return { error: { message: 'The vehicle already exists' }, status: 409 }
 		const response = await this.fetchVehicle({ licensePlate, vin, firstRegistrationDate })
-		!('error' in response) && fakeDB.push(response.data)
+		'data' in response && fakeDB.push(response.data)
 		return response
 	}
 
@@ -74,7 +74,7 @@ export class VehicleManager {
 			jSessionId,
 			bigIp,
 			viewState,
-		}: Session): Promise<ErrorResponse | DataResponse<VehicleTechnicalDetails>> => {
+		}: Session): Promise<DataResponse<VehicleTechnicalDetails> | ErrorResponse> => {
 			try {
 				const url = `${baseUrl}/-/hipo/historiaPojazdu/cepik`
 				const payload = {

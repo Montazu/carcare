@@ -7,7 +7,7 @@ export default function Home() {
 	const [licensePlate, setLicensePlate] = useState('')
 
 	const handleLicensePlateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const licensePlate = DataProcessor.removeSpacesAndConvertToUpperCase(event.target.value)
+		const licensePlate = DataProcessor.removeAllSpacesAndConvertToUpperCase(event.target.value)
 		const isValid = VehicleValidation.licensePlate(licensePlate)
 
 		console.log(isValid)

@@ -1,9 +1,13 @@
 export class DataProcessor {
-	static removeSpacesAndConvertToUpperCase(input: string): string {
-		return input.replace(/\s+/g, '').toUpperCase()
+	static removeAllSpacesAndConvertToUpperCase(input: string): string {
+		return this.removeAllSpaces(input).toUpperCase()
 	}
 
-	static formatDateISOToDDMMYYYY(input: string): string {
+	static removeAllSpacesAndConvertToLowerCase(input: string): string {
+		return this.removeAllSpaces(input).toLowerCase()
+	}
+
+	static convertDateISOToDDMMYYYY(input: string): string {
 		const date = new Date(input)
 		if (isNaN(date.getTime())) return 'Invalid Date'
 
@@ -12,5 +16,13 @@ export class DataProcessor {
 		const year = String(date.getFullYear())
 
 		return `${day}.${month}.${year}`
+	}
+
+	static trimSpaces(input: string): string {
+		return input.trim()
+	}
+
+	static removeAllSpaces(input: string): string {
+		return input.replace(/\s+/g, '')
 	}
 }

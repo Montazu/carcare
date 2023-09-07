@@ -9,14 +9,9 @@ interface Body {
 }
 
 export const GET = async () => {
-	// const response = await VehicleManager.getAllVehicles()
-	// const { data, status } = response
-	// return NextResponse.json(data, { status })
-	const response = {
-		data: { error: 'dupa' },
-		status: 409,
-	}
-	return NextResponse.json(response)
+	const response = await VehicleManager.getAllVehicles()
+	const { data, status } = response
+	return NextResponse.json(data, { status })
 }
 
 export const POST = async (request: Request) => {
@@ -26,10 +21,10 @@ export const POST = async (request: Request) => {
 	const details = []
 
 	if (!licensePlate || !vin || !firstRegistrationDate) {
-		const fieldMessage = 'Required field'
-		!licensePlate && details.push({ field: 'licensePlate', message: fieldMessage })
-		!vin && details.push({ field: 'vin', message: fieldMessage })
-		!firstRegistrationDate && details.push({ field: 'firstRegistrationDate', message: fieldMessage })
+		const message = 'Required field'
+		!licensePlate && details.push({ field: 'licensePlate', message })
+		!vin && details.push({ field: 'vin', message })
+		!firstRegistrationDate && details.push({ field: 'firstRegistrationDate', message })
 		const error = { message: 'The request contains incomplete data', details }
 		return NextResponse.json({ error }, { status: 400 })
 	}
@@ -39,17 +34,17 @@ export const POST = async (request: Request) => {
 	const isFirstRegistrationDateString = TypeChecker.isString(firstRegistrationDate)
 
 	if (!isLicensePlateString || !isVinString || !isFirstRegistrationDateString) {
-		const fieldMessage = 'Invalid data type'
-		!isLicensePlateString && details.push({ field: 'licensePlate', message: fieldMessage })
-		!isVinString && details.push({ field: 'vin', message: fieldMessage })
-		!isFirstRegistrationDateString && details.push({ field: 'firstRegistrationDate', message: fieldMessage })
+		const message = 'Invalid data type'
+		!isLicensePlateString && details.push({ field: 'licensePlate', message })
+		!isVinString && details.push({ field: 'vin', message })
+		!isFirstRegistrationDateString && details.push({ field: 'firstRegistrationDate', message })
 		const error = { message: 'The request contains incomplete data', details }
 		return NextResponse.json({ error }, { status: 400 })
 	}
 
-	const processedLicensePlate = DataProcessor.removeSpacesAndConvertToUpperCase(licensePlate)
-	const processedVin = DataProcessor.removeSpacesAndConvertToUpperCase(vin)
-	const processedFirstRegistrationDate = DataProcessor.formatDateISOToDDMMYYYY(firstRegistrationDate)
+	const processedLicensePlate = DataProcessor.removeAllSpacesAndConvertToUpperCase(licensePlate)
+	const processedVin = DataProcessor.removeAllSpacesAndConvertToUpperCase(vin)
+	const processedFirstRegistrationDate = DataProcessor.convertDateISOToDDMMYYYY(firstRegistrationDate)
 
 	const isLicensePlateValid = VehicleValidation.licensePlate(processedLicensePlate)
 	const isVinValid = VehicleValidation.vin(processedVin)
