@@ -1,7 +1,2 @@
 node_modules
-.next
-.vscode
-.swc
-.env
-/prisma/migrations
-/prisma/dev.db*
+.svelte-kit
